@@ -1,0 +1,117 @@
+<!-- HEADER -->
+<ion-content>
+<header class="app-header">
+  <div class="header-left">
+    <img class='logo' src="../../../assets/assets/navbarimg.png" alt="Logo" />
+    <img class='title' src="../../../assets/assets/titlename.png" alt="Logo" />
+
+  </div>
+
+  <button class="menu-btn text-dark">☰</button>
+</header>
+
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Upcoming Treks in Karnataka</h1>
+    <p>Discover the Western Ghats with expert guides</p>
+
+    <button class="hero-button">
+      Explore Treks →
+    </button>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<section class="filter-section">
+  <button
+    *ngFor="let filter of filters"
+    (click)="setFilter(filter.id)"
+    [class.active]="selectedFilter === filter.id"
+  >
+    {{ filter.label }}
+  </button>
+</section>
+
+<!-- TREK CARDS -->
+<section class="trek-grid">
+  <div class="trek-card" *ngFor="let trek of filteredTreks">
+    <!-- Image -->
+    <div class="trek-image-container">
+      <img [src]="trek.image" [alt]="trek.name" />
+      <span class="difficulty-badge">
+        {{ trek.difficulty }}
+      </span>
+    </div>
+
+    <!-- Header -->
+    <div class="trek-header">
+      <h3>{{ trek.name }}</h3>
+      <p class="location">📍 {{ trek.location }}</p>
+    </div>
+
+    <!-- Content -->
+    <div class="trek-content">
+      <div class="trek-details">
+        <span>⭐ {{ trek.rating }}</span>
+        <span>⏱ {{ trek.duration }}</span>
+        <span>👥 {{ trek.groupSize }}</span>
+      </div>
+
+      <div class="trek-date">
+        📅 {{ trek.date }}
+      </div>
+
+      <div class="highlights">
+        <span class="chip" *ngFor="let h of trek.highlights">
+          {{ h }}
+        </span>
+      </div>
+
+      <div class="trek-footer">
+        <div class="price">
+          <span class="price-amount">{{ trek.price }}</span>
+          <span class="price-label">/person</span>
+        </div>
+
+        <button class="book-btn" (click)="bookTrek(trek)">
+          Book Now →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="app-footer">
+  <div class="footer-grid">
+    <div class="footer-section">
+      <h3>🌄 Karnataka Adventures</h3>
+      <p>Exploring the magnificent Western Ghats, one trek at a time.</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li>About Us</li>
+        <li>All Treks</li>
+        <li>Safety Guidelines</li>
+        <li>Contact</li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact Info</h4>
+      <p>📧 info@karnataka-adventures.com</p>
+      <p>📞 +91 98765 43210</p>
+      <p>📍 Bengaluru, Karnataka</p>
+    </div>
+  </div>
+
+  <p class="copyright">
+    © 2026 Karnataka Adventures. All rights reserved.
+  </p>
+</footer>
+</ion-content>
