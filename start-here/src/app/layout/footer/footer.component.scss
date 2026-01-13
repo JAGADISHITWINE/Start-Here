@@ -1,0 +1,45 @@
+/* FOOTER */
+.app-footer {
+  background: #e3e0e0;
+  color: #000000;
+  padding: 40px 20px 20px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.footer-section h4,
+.footer-section h3 {
+  color: #000000;
+}
+
+footer p {
+  margin: 6px 0;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+
+  li {
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
+}
+
+footer .copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+
+.logo {
+  height: 35px;
+  margin-right: 10px;
+}
+.title {
+  height: 28px;
+}

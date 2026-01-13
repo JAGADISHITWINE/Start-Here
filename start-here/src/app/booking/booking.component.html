@@ -1,0 +1,227 @@
+
+  <nav class="navbar navbar-dark bg-primary sticky-top">
+    <div class="container-fluid">
+      <button class="btn btn-outline-light" routerLink="">←</button>
+      <span class="navbar-brand mx-auto fw-semibold">Book Your Trek</span>
+    </div>
+  </nav>
+
+  <div class="py-2 border-bottom progress-steps">
+    <div
+      class="container d-flex justify-content-center align-items-center gap-3"
+    >
+      <div class="text-center">
+        <div
+          class="rounded-circle border fw-bold px-3 py-2"
+          [class.bg-primary]="currentStep >= 1"
+          [class.text-white]="currentStep >= 1"
+        >
+          1
+        </div>
+        <small>Details</small>
+      </div>
+      <div class="flex-grow-1 border-top"></div>
+      <div class="text-center">
+        <div
+          class="rounded-circle border fw-bold px-3 py-2"
+          [class.bg-primary]="currentStep >= 2"
+          [class.text-white]="currentStep >= 2"
+        >
+          2
+        </div>
+        <small>Info</small>
+      </div>
+      <div class="flex-grow-1 border-top"></div>
+      <div class="text-center">
+        <div
+          class="rounded-circle border fw-bold px-3 py-2"
+          [class.bg-primary]="currentStep >= 3"
+          [class.text-white]="currentStep >= 3"
+        >
+          3
+        </div>
+        <small>Review</small>
+      </div>
+    </div>
+  </div>
+  <div class="container tour-summary">
+    <h3 class="fw-bold">{{ tour.name }}</h3>
+  </div>
+  <div class="container booking-step" *ngIf="currentStep === 1">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Select Date & Participants</h5>
+        <div class="row">
+          <div class="mb-3 col-sm-6">
+            <label class="form-label">Select Date</label>
+            <select class="form-select" [(ngModel)]="booking.date">
+              <option selected disabled>Select Date</option>
+              <option
+                *ngFor="let date of tour.dates"
+                [value]="date.value"
+                [disabled]="!date.available"
+              >
+                {{ date.label }} {{ !date.available ? "(Full)" : "" }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3 col-sm-6">
+            <label class="form-label">Number of Participants</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="booking.participants"
+              min="1"
+              max="10"
+            />
+          </div>
+        </div>
+
+        <h6 class="mt-4">Add-ons (Optional)</h6>
+        <div class="form-check mb-2" *ngFor="let addon of addOns">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [(ngModel)]="addon.selected"
+          />
+          <label class="form-check-label">
+            {{ addon.name }} — ₹{{ addon.price }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container booking-step" *ngIf="currentStep === 2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Personal Information</h5>
+
+        <div class="row">
+          <div class="mb-3 col-md-6">
+            <label class="form-label">Full Name *</label>
+            <input class="form-control" [(ngModel)]="booking.name" />
+          </div>
+
+          <div class="mb-3 col-md-6">
+            <label class="form-label">Email *</label>
+            <input
+              type="email"
+              class="form-control"
+              [(ngModel)]="booking.email"
+            />
+          </div>
+
+          <div class="mb-3 col-md-6">
+            <label class="form-label">Phone *</label>
+            <input
+              type="tel"
+              class="form-control"
+              [(ngModel)]="booking.phone"
+            />
+          </div>
+
+          <div class="mb-3 col-md-6">
+            <label class="form-label">Emergency Contact *</label>
+            <input
+              type="tel"
+              class="form-control"
+              [(ngModel)]="booking.emergencyContact"
+            />
+          </div>
+
+          <div class="mb-3 col-md-6">
+            <label class="form-label">Special Requests</label>
+            <textarea
+              class="form-control"
+              rows="4"
+              [(ngModel)]="booking.specialRequests"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container booking-step" *ngIf="currentStep === 3">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Review Your Booking</h5>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <h6 class="mt-3">Trek Details</h6>
+            <ul class="list-group mb-3">
+              <li class="list-group-item">Trek: {{ tour.name }}</li>
+              <li class="list-group-item">Date: {{ booking.date }}</li>
+              <li class="list-group-item">
+                Participants: {{ booking.participants }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+          <h6 class="mt-3">Personal Details</h6>
+          <ul class="list-group mb-3">
+            <li class="list-group-item">Name: {{ booking.name }}</li>
+            <li class="list-group-item">Email: {{ booking.email }}</li>
+            <li class="list-group-item">Phone: {{ booking.phone }}</li>
+          </ul>
+        </div>
+        </div>
+
+
+
+        <h6>Price Breakdown</h6>
+        <ul class="list-group">
+          <li class="list-group-item">
+            Trek ({{ booking.participants }} × ₹{{ tour.price }}) — ₹{{
+              basePrice
+            }}
+          </li>
+          <ng-container *ngFor="let addon of addOns">
+            <li class="list-group-item" *ngIf="addon.selected">
+              {{ addon.name }} — ₹{{ addon.price }}
+            </li>
+          </ng-container>
+          <li class="list-group-item fw-bold">Total — ₹{{ totalPrice }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-check mb-4">
+      <input class="form-check-input" type="checkbox" />
+      <label class="form-check-label">
+        I agree to <a routerLink="/legal/terms">Terms</a> &
+        <a routerLink="/legal/refund">Cancellation Policy</a>
+      </label>
+    </div>
+  </div>
+  <div class="fixed-bottom bg-light border-top p-2 mt-2">
+    <div class="container d-flex align-items-center gap-2">
+      <button
+        *ngIf="currentStep > 1"
+        class="btn btn-outline-secondary"
+        (click)="prevStep()"
+      >
+        ← Back
+      </button>
+
+      <div class="ms-auto fw-bold">Total: ₹{{ totalPrice }}</div>
+
+      <button
+        *ngIf="currentStep < 3"
+        class="btn btn-success"
+        (click)="nextStep()"
+      >
+        Continue →
+      </button>
+
+      <button
+        *ngIf="currentStep === 3"
+        class="btn btn-success"
+        (click)="proceedToPayment()"
+      >
+        Proceed to Payment 💳
+      </button>
+    </div>
+  </div>
+

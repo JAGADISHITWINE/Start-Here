@@ -1,0 +1,187 @@
+
+<!-- Header -->
+<nav class="navbar navbar-dark bg-primary sticky-top">
+  <div class="container-fluid">
+    <a class="btn btn-outline-light align-items-center" routerLink="">←</a>
+
+    <span class="navbar-brand mx-auto fw-semibold">
+      Tour Details
+    </span>
+  </div>
+</nav>
+
+<!-- Hero Image -->
+<div class="w-100">
+  <img
+    [src]="tour.image"
+    [alt]="tour.name"
+    class="img-fluid w-100"
+    style="max-height: 420px; object-fit: cover;"
+  />
+</div>
+
+<!-- Tour Header -->
+<div class="container my-4">
+  <h1 class="fw-bold">{{ tour.name }}</h1>
+
+  <p class="text-muted mb-2">
+    📍 {{ tour.location }}
+  </p>
+
+  <div class="d-flex align-items-center gap-2 flex-wrap">
+    <span class="fw-semibold">⭐ {{ tour.rating }}</span>
+    <span class="text-muted">({{ tour.reviewCount }} reviews)</span>
+    <span class="badge" [ngClass]="getDifficultyColor(tour.difficulty)">
+      {{ tour.difficulty }}
+    </span>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <button
+        class="nav-link"
+        [class.active]="selectedSegment === 'overview'"
+        (click)="selectedSegment='overview'"
+      >
+        Overview
+      </button>
+    </li>
+    <li class="nav-item">
+      <button
+        class="nav-link"
+        [class.active]="selectedSegment === 'itinerary'"
+        (click)="selectedSegment='itinerary'"
+      >
+        Itinerary
+      </button>
+    </li>
+    <li class="nav-item">
+      <button
+        class="nav-link"
+        [class.active]="selectedSegment === 'inclusions'"
+        (click)="selectedSegment='inclusions'"
+      >
+        Inclusions
+      </button>
+    </li>
+    <li class="nav-item">
+      <button
+        class="nav-link"
+        [class.active]="selectedSegment === 'reviews'"
+        (click)="selectedSegment='reviews'"
+      >
+        Reviews
+      </button>
+    </li>
+  </ul>
+</div>
+
+<!-- Content -->
+<div class="container my-4">
+
+  <!-- Overview -->
+  <div *ngIf="selectedSegment === 'overview'">
+    <div class="row text-center mb-4">
+      <div class="col-md-6">
+        <h6 class="text-muted">Duration</h6>
+        <p class="fw-semibold">{{ tour.duration }}</p>
+      </div>
+      <div class="col-md-6">
+        <h6 class="text-muted">Difficulty</h6>
+        <p class="fw-semibold">{{ tour.difficulty }}</p>
+      </div>
+    </div>
+
+    <h4>About This Trek</h4>
+    <p>{{ tour.overview }}</p>
+
+    <h4 class="mt-4">Highlights</h4>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let highlight of tour.highlights">
+        ✅ {{ highlight }}
+      </li>
+    </ul>
+
+    <h4 class="mt-4">Photo Gallery</h4>
+    <div class="row g-3">
+      <div class="col-6 col-md-4" *ngFor="let photo of tour.gallery">
+        <img [src]="photo" class="img-fluid rounded" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Itinerary -->
+  <div *ngIf="selectedSegment === 'itinerary'">
+    <div class="card mb-3" *ngFor="let day of tour.itinerary">
+      <div class="card-body">
+        <h6 class="text-muted">Day {{ day.day }}</h6>
+        <h5>{{ day.title }}</h5>
+        <p>{{ day.description }}</p>
+        <div class="d-flex gap-3 text-muted small">
+          <span>🗺 {{ day.distance }}</span>
+          <span>⏱ {{ day.duration }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inclusions -->
+  <div *ngIf="selectedSegment === 'inclusions'">
+    <h4>What's Included</h4>
+    <ul class="list-group mb-4">
+      <li class="list-group-item" *ngFor="let item of tour.inclusions">
+        ➕ {{ item }}
+      </li>
+    </ul>
+
+    <h4>What's Not Included</h4>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let item of tour.exclusions">
+        ➖ {{ item }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Reviews -->
+  <div *ngIf="selectedSegment === 'reviews'">
+    <div class="text-center mb-4">
+      <h2>{{ tour.rating }}</h2>
+      <p class="text-muted">{{ tour.reviewCount }} reviews</p>
+    </div>
+
+    <div class="card mb-3" *ngFor="let review of reviews">
+      <div class="card-body">
+        <div class="d-flex gap-3 align-items-center mb-2">
+          <img
+            [src]="review.avatar"
+            class="rounded-circle"
+            width="45"
+            height="45"
+          />
+          <div>
+            <h6 class="mb-0">{{ review.name }}</h6>
+            <small class="text-muted">{{ review.date }}</small>
+          </div>
+        </div>
+        <p class="mb-0">{{ review.comment }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Footer -->
+<div class="sticky-bottom bg-light text-secondary-emphasis border-top">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div>
+      <small class="text-muted">Starting from</small>
+      <div class="fw-bold fs-5">₹{{ tour.price }} <small>/person</small></div>
+    </div>
+    <button class="btn btn-success px-2" (click)="bookNow()">
+      Book Now →
+    </button>
+  </div>
+</div>
+

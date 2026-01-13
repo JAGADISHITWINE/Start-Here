@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 interface Trek {
@@ -25,7 +26,8 @@ interface Filter {
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [IonicModule, CommonModule],
+  standalone: true,
+  imports: [IonicModule, CommonModule, RouterLink],
 })
 export class DashboardComponent  implements OnInit {
 

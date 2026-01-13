@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>FAQs</ion-title>
+  </ion-toolbar>
+
+  <!-- Search Bar -->
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="searchQuery" placeholder="Search questions..." animated="true"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+
+<!-- Header -->
+<div class="faqs-header">
+  <ion-icon name="help-circle-outline"></ion-icon>
+  <h1>Frequently Asked Questions</h1>
+  <p>Find answers to common questions about our treks</p>
+</div>
+
+<!-- Category Filter -->
+<div class="filter-section">
+  <ion-segment [(ngModel)]="selectedCategory" scrollable="true">
+    <ion-segment-button *ngFor="let category of categories" [value]="category.value">
+      <ion-label>{{ category.label }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
+<!-- FAQs List -->
+<div class="faqs-list">
+  <ion-card *ngFor="let faq of filteredFaqs" class="faq-card">
+    <ion-item button (click)="toggleFaq(faq)" detail="false" lines="none">
+      <ion-icon [name]="faq.expanded ? 'chevron-up' : 'chevron-down'" slot="start" color="success"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3>{{ faq.question }}</h3>
+      </ion-label>
+    </ion-item>
+
+    <ion-card-content *ngIf="faq.expanded" class="answer">
+      {{ faq.answer }}
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<!-- No Results -->
+<div *ngIf="filteredFaqs.length === 0" class="no-results">
+  <ion-icon name="search-outline"></ion-icon>
+  <h3>No questions found</h3>
+  <p>Try a different search term or category</p>
+</div>
+
+<!-- Still Have Questions -->
+<div class="contact-cta">
+  <ion-card>
+    <ion-card-content>
+      <h2>Still have questions?</h2>
+      <p>Can't find what you're looking for? We're here to help!</p>
+      <ion-button expand="block" color="success" routerLink="/contact">
+        Contact Us
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</div>

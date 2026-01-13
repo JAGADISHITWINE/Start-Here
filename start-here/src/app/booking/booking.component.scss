@@ -1,0 +1,135 @@
+.progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    &.active .step-number {
+      background: #059669;
+      color: white;
+    }
+
+    &.completed .step-number {
+      background: #10b981;
+      color: white;
+    }
+  }
+
+  .step-line {
+    width: 60px;
+    height: 2px;
+    background: #e5e7eb;
+    margin: 0 8px;
+    margin-bottom: 20px;
+
+    &.completed {
+      background: #10b981;
+    }
+  }
+}
+
+.tour-summary {
+  background: white;
+  padding: 8px;
+  border-bottom: 1px solid #e5e7eb;
+
+  h3 {
+    margin: 0;
+    color: #1f2937;
+  }
+}
+
+.booking-step {
+  padding: 16px;
+}
+
+.addons-section {
+  margin-top: 24px;
+
+  h4 {
+    margin-bottom: 12px;
+    padding-left: 16px;
+  }
+}
+
+.review-section {
+  margin-bottom: 24px;
+
+  h4 {
+    color: #374151;
+    margin-bottom: 12px;
+  }
+
+  .total {
+    border-top: 2px solid #e5e7eb;
+    margin-top: 12px;
+    padding-top: 12px;
+
+    ion-label, ion-note {
+      font-size: 1.125rem;
+      color: #059669;
+    }
+  }
+}
+
+.terms {
+  padding: 16px;
+
+  a {
+    color: #059669;
+    text-decoration: none;
+  }
+}
+
+.footer-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 30px 16px;
+
+  .spacer {
+    flex: 1;
+  }
+
+  .price-display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 12px;
+
+    .label {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    .amount {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #059669;
+    }
+  }
+}

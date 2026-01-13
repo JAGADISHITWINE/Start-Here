@@ -1,0 +1,96 @@
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+  <div class="container-fluid">
+    <button class="btn btn-outline-light me-3" routerLink="">
+      ← Back
+    </button>
+    <span class="navbar-brand mb-0 h4">All Tours & Treks</span>
+  </div>
+</nav>
+
+<!-- Search Bar -->
+<div class="container mt-3">
+  <input type="text" class="form-control" placeholder="Search treks, locations..." [(ngModel)]="filters.search"
+    (input)="applyFilters()" />
+</div>
+
+<!-- Filters -->
+<div class="container mt-3">
+  <div class="row g-3 align-items-center">
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="filters.category" (change)="applyFilters()">
+        <option value="" selected disabled>Select Categories</option>
+        <option *ngFor="let cat of categories" [value]="cat.value">
+          {{ cat.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="filters.difficulty" (change)="applyFilters()">
+        <option value="" selected disabled>Select Difficulties</option>
+        <option *ngFor="let diff of difficulties" [value]="diff.value">
+          {{ diff.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-4 text-md-end">
+      <span class="fw-semibold">
+        Results: {{ filteredTours.length }}
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Tours Grid -->
+<div class="container mt-4 mb-4">
+  <div class="row g-4 ">
+    <div class="col-sm-6 col-lg-4" *ngFor="let tour of filteredTours">
+      <div class="card h-100 shadow-sm tour-card" (click)="viewDetails(tour.id)">
+        <div class="position-relative">
+          <img [src]="tour.image" [alt]="tour.name" class="card-img-top" />
+
+          <span class="badge position-absolute top-0 start-0 m-2" [ngClass]="getDifficultyColor(tour.difficulty)">
+            {{ tour.difficulty }}
+          </span>
+
+          <span class="badge bg-dark position-absolute top-0 end-0 m-2">
+            {{ tour.category }}
+          </span>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ tour.name }}</h5>
+          <p class="text-muted mb-2">
+            📍 {{ tour.location }}
+          </p>
+
+          <div class="d-flex justify-content-between small mb-3">
+            <span>⭐ {{ tour.rating }}</span>
+            <span>⏱ {{ tour.duration }}</span>
+            <span>📅 {{ tour.nextDate }}</span>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <span class="fw-bold fs-5">{{ tour.price }}</span>
+              <small class="text-muted">/person</small>
+            </div>
+
+            <button class="btn btn-success btn-sm">
+              View Details →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- No Results -->
+<div *ngIf="filteredTours.length === 0" class="container text-center mt-5 text-muted">
+  <div class="display-6">🔍</div>
+  <h4>No tours found</h4>
+  <p>Try adjusting your filters</p>
+</div>

@@ -1,12 +1,51 @@
+import { FaqsModule } from './faqs/faqs-module';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { MainpageComponent } from './layout/mainpage/mainpage.component';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('./features/dashboard/dashboard-module').then(m => m.DashboardModule)
-  },
+    component: MainpageComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./dashboard/dashboard-module').then(m => m.DashboardModule)
+      },
+      {
+        path: 'upcomingtours',
+        loadChildren: () =>
+          import('./upcomingtours/tours-module').then(m => m.ToursModule)
+      },
+      {
+        path: 'tour-details',
+        loadChildren: () =>
+          import('./tour-details/tour-details-module').then(m => m.TourDetailsModule)
+      },
+      {
+        path: 'booking',
+        loadChildren: () =>
+          import('./booking/booking-module').then(m => m.BookingModule)
+      },
+      {
+        path: 'about',
+        loadChildren: () =>
+          import('./about/about-module').then(m => m.AboutModule)
+      },
+      {
+        path: 'faqs',
+        loadChildren: () =>
+          import('./faqs/faqs-module').then(m => m.FaqsModule)
+      },
+      {
+        path: 'login',
+        loadChildren: () =>
+          import('./auth/login/login-module').then(m => m.LoginModule)
+      }
+    ]
+  }
+
 ];
 @NgModule({
   imports: [
@@ -14,4 +53,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
