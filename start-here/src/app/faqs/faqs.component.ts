@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 interface FAQ {
@@ -15,7 +16,7 @@ interface FAQ {
   templateUrl: './faqs.component.html',
   styleUrls: ['./faqs.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
 })
 export class FaqsComponent implements OnInit {
 
