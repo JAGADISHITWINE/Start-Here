@@ -1,96 +1,168 @@
-<!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
-  <div class="container-fluid">
-    <button class="btn btn-outline-light me-3" routerLink="">
-      ← Back
-    </button>
-    <span class="navbar-brand mb-0 h4">All Tours & Treks</span>
+<div class="position-relative">
+  <img
+    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=300&fit=crop"
+    class="img-fluid w-100"
+    style="height:300px; object-fit:cover;"
+    alt="Treks Banner"
+  />
+  <div class="position-absolute top-50 start-50 translate-middle text-white text-center">
+    <h1 class="fw-bold">Upcoming Treks & Adventures</h1>
   </div>
-</nav>
-
-<!-- Search Bar -->
-<div class="container mt-3">
-  <input type="text" class="form-control" placeholder="Search treks, locations..." [(ngModel)]="filters.search"
-    (input)="applyFilters()" />
+</div>
+<div class="container my-3 d-flex align-items-center gap-2">
+  <a routerLink="/home" class="badge bg-light text-dark text-decoration-none">
+    🏠 Home
+  </a>
+  <span>›</span>
+  <span class="badge bg-success">Upcoming Treks & Adventures</span>
 </div>
 
-<!-- Filters -->
-<div class="container mt-3">
-  <div class="row g-3 align-items-center">
-    <div class="col-md-4">
-      <select class="form-select" [(ngModel)]="filters.category" (change)="applyFilters()">
-        <option value="" selected disabled>Select Categories</option>
-        <option *ngFor="let cat of categories" [value]="cat.value">
-          {{ cat.label }}
+<div class="container my-3">
+  <div class="row align-items-center">
+    <div class="col-md-6 mb-2 mb-md-0">
+      Showing <strong>{{ trekCount }}</strong> of
+      <strong>{{ allTreks.length }}</strong> trips
+    </div>
+
+    <div class="col-md-6 text-md-end">
+      <select
+        class="form-select w-auto d-inline"
+        [(ngModel)]="sortBy"
+        (change)="sortTreks()"
+      >
+        <option *ngFor="let option of sortOptions" [value]="option.value">
+          {{ option.label }}
         </option>
       </select>
     </div>
+  </div>
+</div>
+<div class="container d-flex justify-content-center align-items-center gap-3 my-4">
+  <button
+    class="btn btn-outline-secondary"
+    (click)="changeYear('prev')"
+    [disabled]="selectedYear === years[0]"
+  >
+    ← {{ selectedYear - 1 }}
+  </button>
 
-    <div class="col-md-4">
-      <select class="form-select" [(ngModel)]="filters.difficulty" (change)="applyFilters()">
-        <option value="" selected disabled>Select Difficulties</option>
-        <option *ngFor="let diff of difficulties" [value]="diff.value">
-          {{ diff.label }}
-        </option>
-      </select>
-    </div>
+  <span class="badge bg-success fs-6 px-4">{{ selectedYear }}</span>
 
-    <div class="col-md-4 text-md-end">
-      <span class="fw-semibold">
-        Results: {{ filteredTours.length }}
+  <button
+    class="btn btn-outline-secondary"
+    (click)="changeYear('next')"
+    [disabled]="selectedYear === years[years.length - 1]"
+  >
+    {{ selectedYear + 1 }} →
+  </button>
+</div>
+<div class="container mb-4">
+  <div class="d-flex overflow-auto gap-2">
+    <button
+      *ngFor="let month of months"
+      class="btn"
+      [class.btn-success]="selectedMonth === month"
+      [class.btn-outline-success]="selectedMonth !== month"
+      (click)="selectedMonth = month"
+    >
+      {{ month }}
+      <span
+        *ngIf="monthTreks[month]?.length"
+        class="badge bg-light text-dark ms-1"
+      >
+        {{ monthTreks[month].length }}
       </span>
-    </div>
+    </button>
   </div>
 </div>
+<div class="container mb-3">
+  <h2>{{ selectedMonth }}</h2>
+  <p class="text-muted">{{ trekCount }} departures</p>
+</div>
+<div class="container d-none d-md-block fw-semibold text-uppercase text-muted border-bottom pb-2">
+  <div class="row">
+    <div class="col-3">Date & Duration</div>
+    <div class="col-5">Trip & Location</div>
+    <div class="col-2">Availability</div>
+    <div class="col-2">Price</div>
+  </div>
+</div>
+<div class="container">
+  <div
+    class="card mb-3 shadow-sm"
+    *ngFor="let trek of currentMonthTreks"
+    [class.opacity-50]="trek.status === 'sold-out'"
+    (click)="viewDetails(trek.id)"
+    style="cursor:pointer"
+  >
+    <div class="card-body">
+      <div class="row align-items-center">
 
-<!-- Tours Grid -->
-<div class="container mt-4 mb-4">
-  <div class="row g-4 ">
-    <div class="col-sm-6 col-lg-4" *ngFor="let tour of filteredTours">
-      <div class="card h-100 shadow-sm tour-card" (click)="viewDetails(tour.id)">
-        <div class="position-relative">
-          <img [src]="tour.image" [alt]="tour.name" class="card-img-top" />
+        <!-- Date -->
+        <div class="col-md-3 mb-3 mb-md-0">
+          <div class="fw-bold">{{ trek.date }}, {{ trek.time }}</div>
+          <small class="text-muted">⏱ {{ trek.duration }}</small>
+        </div>
 
-          <span class="badge position-absolute top-0 start-0 m-2" [ngClass]="getDifficultyColor(tour.difficulty)">
-            {{ tour.difficulty }}
-          </span>
+        <!-- Trek Info -->
+        <div class="col-md-5 mb-3 mb-md-0 d-flex gap-3">
+          <img
+            [src]="trek.image"
+            class="rounded"
+            style="width:90px; height:70px; object-fit:cover"
+          />
+          <div>
+            <h5 class="mb-1">{{ trek.name }}</h5>
+            <small class="text-muted">📍 {{ trek.location }}</small><br />
+            <span class="badge bg-light text-dark mt-1">
+              {{ trek.category }}
+            </span>
+          </div>
+        </div>
 
-          <span class="badge bg-dark position-absolute top-0 end-0 m-2">
-            {{ tour.category }}
+        <!-- Status -->
+        <div class="col-md-2 mb-3 mb-md-0">
+          <span
+            class="badge"
+            [class.bg-success]="trek.status === 'available'"
+            [class.bg-secondary]="trek.status === 'sold-out'"
+          >
+            {{ getStatusText(trek.status) }}
           </span>
         </div>
 
-        <div class="card-body">
-          <h5 class="card-title">{{ tour.name }}</h5>
-          <p class="text-muted mb-2">
-            📍 {{ tour.location }}
-          </p>
-
-          <div class="d-flex justify-content-between small mb-3">
-            <span>⭐ {{ tour.rating }}</span>
-            <span>⏱ {{ tour.duration }}</span>
-            <span>📅 {{ tour.nextDate }}</span>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <span class="fw-bold fs-5">{{ tour.price }}</span>
-              <small class="text-muted">/person</small>
-            </div>
-
-            <button class="btn btn-success btn-sm">
-              View Details →
-            </button>
-          </div>
+        <!-- Price -->
+        <div class="col-md-2 text-md-end">
+          <div class="fw-bold">₹ {{ trek.price }}</div>
+          <small class="text-muted">Per Person</small>
+          <button
+            class="btn btn-sm w-100 mt-2"
+            [class.btn-success]="trek.status !== 'sold-out'"
+            [class.btn-secondary]="trek.status === 'sold-out'"
+            [disabled]="trek.status === 'sold-out'"
+          >
+            {{ trek.status === 'sold-out' ? 'SOLD OUT' : 'VIEW DETAILS' }}
+          </button>
         </div>
+
       </div>
     </div>
   </div>
 </div>
-
-<!-- No Results -->
-<div *ngIf="filteredTours.length === 0" class="container text-center mt-5 text-muted">
-  <div class="display-6">🔍</div>
-  <h4>No tours found</h4>
-  <p>Try adjusting your filters</p>
+<div *ngIf="trekCount === 0" class="text-center my-5">
+  <h3>No treks scheduled for {{ selectedMonth }}</h3>
+  <p class="text-muted">Check other months or years</p>
+</div>
+<div class="container my-5">
+  <div class="card text-center shadow">
+    <div class="card-body">
+      <h2>Can't find what you're looking for?</h2>
+      <p class="text-muted">
+        We also organize customized trips and corporate outings
+      </p>
+      <a routerLink="/contact" class="btn btn-primary w-100">
+        Contact Us for Custom Trips
+      </a>
+    </div>
+  </div>
 </div>

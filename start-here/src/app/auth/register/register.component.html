@@ -1,3 +1,85 @@
-<p>
-  register works!
-</p>
+<!-- Register Container -->
+<div class="container d-flex justify-content-center align-items-center py-3">
+  <div class="col-lg-5 col-md-7 col-sm-10">
+
+    <!-- Card -->
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <div class="logo-section">
+          <img class="logo-icon" src="../../../assets/assets/navbarimg.png" alt="">
+        </div>
+
+        <form>
+
+          <!-- Full Name -->
+          <div class="mb-3">
+            <label class="form-label">Full Name *</label>
+            <input type="text" class="form-control" placeholder="Enter your name" required />
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label">Email *</label>
+            <input type="email" class="form-control" placeholder="your@email.com" required />
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" placeholder="+91 98765 43210" />
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label class="form-label">Password *</label>
+            <div class="password-group">
+              <input [type]="showPassword ? 'text' : 'password'" class="form-control" placeholder="Create password" required />
+              <button type="button" class="toggle-password" (click)="togglePassword()"
+                aria-label="Toggle password visibility">
+                {{ showPassword ? '🙈' : '👁️' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mb-3">
+            <label class="form-label">Confirm Password *</label>
+            <div class="password-group">
+              <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control" placeholder="Confirm password" required />
+              <button type="button" class="toggle-password" (click)="toggleConfirmPassword()"
+                aria-label="Toggle password visibility">
+                {{ showConfirmPassword ? '🙈' : '👁️' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Terms -->
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="terms">
+            <label class="form-check-label" for="terms">
+              I agree to the
+              <a routerLink="/legal/terms">Terms & Conditions</a>
+              and
+              <a routerLink="/legal/privacy">Privacy Policy</a>
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn btn-success w-100 mb-3">
+            Create Account
+          </button>
+
+        </form>
+
+        <!-- Login Link -->
+        <div class="text-center">
+          <span class="text-muted">Already have an account?</span>
+          <a routerLink="/auth/login" class="btn btn-link px-1">
+            Login
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

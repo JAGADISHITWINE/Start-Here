@@ -1,3 +1,5 @@
+import { BlogDetailModule } from './blog-detail/blog-detail-module';
+import { BlogModule } from './blog/blog-module';
 import { FaqsModule } from './faqs/faqs-module';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
@@ -39,9 +41,24 @@ const routes: Routes = [
           import('./faqs/faqs-module').then(m => m.FaqsModule)
       },
       {
-        path: 'login',
+        path: 'auth/login',
         loadChildren: () =>
           import('./auth/login/login-module').then(m => m.LoginModule)
+      },
+      {
+        path: 'auth/register',
+        loadChildren: () =>
+          import('./auth/register/register-module').then(m => m.RegisterModule)
+      },
+      {
+        path: 'blog',
+        loadChildren: () =>
+          import('./blog/blog-module').then(m => m.BlogModule)
+      },
+      {
+        path: 'blog-details',
+        loadChildren: () =>
+          import('./blog-detail/blog-detail-module').then(m => m.BlogDetailModule)
       }
     ]
   }

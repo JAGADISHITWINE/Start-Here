@@ -1,0 +1,171 @@
+<!-- Featured Image -->
+<div class="post-hero">
+  <img [src]="post.image" [alt]="post.title" />
+</div>
+
+<!-- Article Header -->
+<div class="article-header">
+  <ion-chip color="success" class="category-chip">
+    <ion-icon name="map"></ion-icon>
+    <ion-label>{{ getCategoryLabel(post.category) }}</ion-label>
+  </ion-chip>
+
+  <h1>{{ post.title }}</h1>
+
+  <div class="article-meta">
+    <div class="author-section">
+      <img
+        [src]="post.author.avatar"
+        [alt]="post.author.name"
+        class="author-avatar"
+      />
+      <div class="author-details">
+        <div class="author-name">{{ post.author.name }}</div>
+        <div class="author-bio">{{ post.author.bio }}</div>
+      </div>
+    </div>
+
+    <div class="post-info">
+      <span class="info-item">
+        <ion-icon name="calendar-outline"></ion-icon>
+        {{ post.date }}
+      </span>
+      <span class="info-item">
+        <ion-icon name="time-outline"></ion-icon>
+        {{ post.readTime }}
+      </span>
+      <span class="info-item">
+        <ion-icon name="eye-outline"></ion-icon>
+        {{ post.views }} views
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Article Content -->
+<div class="article-content" [innerHTML]="post.content"></div>
+
+<!-- Tags -->
+<div class="article-tags">
+  <h3>Tags</h3>
+  <div class="tags-list">
+    <ion-chip *ngFor="let tag of post.tags" outline="true">
+      <ion-icon name="pricetag-outline"></ion-icon>
+      <ion-label>{{ tag }}</ion-label>
+    </ion-chip>
+  </div>
+</div>
+
+<!-- Article Actions -->
+<div class="article-actions">
+  <ion-button fill="outline" color="danger">
+    <ion-icon name="heart-outline" slot="start"></ion-icon>
+    Like ({{ post.likes }})
+  </ion-button>
+
+  <ion-button fill="outline" color="primary">
+    <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+    Comment ({{ comments.length }})
+  </ion-button>
+
+  <ion-button fill="outline" color="success">
+    <ion-icon name="share-social-outline" slot="start"></ion-icon>
+    Share
+  </ion-button>
+</div>
+
+<!-- Author Card -->
+<div class="author-card">
+  <ion-card>
+    <ion-card-content>
+      <div class="author-card-content">
+        <img
+          [src]="post.author.avatar"
+          [alt]="post.author.name"
+          class="author-avatar-large"
+        />
+        <div class="author-info">
+          <h3>{{ post.author.name }}</h3>
+          <p>{{ post.author.bio }}</p>
+          <ion-button size="small" fill="outline" color="success">
+            <ion-icon name="person-add-outline" slot="start"></ion-icon>
+            Follow
+          </ion-button>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<!-- Comments Section -->
+<div class="comments-section">
+  <h2>Comments ({{ comments.length }})</h2>
+
+  <ion-card class="add-comment-card">
+    <ion-card-content>
+      <ion-textarea
+        placeholder="Share your thoughts..."
+        rows="3"
+      ></ion-textarea>
+      <button class="btn btn-outline-secondary">
+        Post Comment
+      </button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let comment of comments" class="comment-card">
+    <ion-card-content>
+      <div class="comment-header">
+        <img
+          [src]="comment.author.avatar"
+          [alt]="comment.author.name"
+          class="comment-avatar"
+        />
+        <div class="comment-author-info">
+          <div class="comment-author-name">{{ comment.author.name }}</div>
+          <div class="comment-date">{{ comment.date }}</div>
+        </div>
+      </div>
+
+      <p class="comment-content">{{ comment.content }}</p>
+
+      <div class="comment-actions">
+        <ion-button fill="clear" size="small">
+          <ion-icon name="heart-outline" slot="start"></ion-icon>
+          {{ comment.likes }}
+        </ion-button>
+
+        <button class="btn btn-sm btn-outline-secondary">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+          Reply
+        </button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<!-- Related Posts -->
+<div class="related-posts">
+  <h2>Related Articles</h2>
+  <div class="related-grid">
+    <ion-card
+      *ngFor="let relatedPost of relatedPosts"
+      button
+      (click)="viewRelatedPost(relatedPost.id)"
+    >
+      <img [src]="relatedPost.image" [alt]="relatedPost.title" />
+      <ion-card-content>
+        <ion-chip size="small" color="success" outline="true">
+          <ion-label>{{ getCategoryLabel(relatedPost.category) }}</ion-label>
+        </ion-chip>
+
+        <h4>{{ relatedPost.title }}</h4>
+
+        <span class="read-time">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ relatedPost.readTime }}
+        </span>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</div>
